@@ -13,47 +13,53 @@ public class Message {
         return subject;
     }
 
-    public void setSubject(String subject) {
+    public Message setSubject(String subject) {
         this.subject = subject;
+        return this;
     }
 
     public String getBody() {
         return body;
     }
 
-    public void setBody(String body) {
+    public Message setBody(String body) {
         this.body = body;
+        return this;
     }
 
     public String[] getTo() {
         return to;
     }
 
-    public void setTo(String[] to) {
+    public Message setTo(String ...to) {
         this.to = to;
+        return this;
     }
 
     public String[] getCc() {
         return cc;
     }
 
-    public void setCc(String[] cc) {
+    public Message setCc(String ...cc) {
         this.cc = cc;
+        return this;
     }
 
     public String[] getBcc() {
         return bcc;
     }
 
-    public void setBcc(String[] bcc) {
+    public Message setBcc(String[] bcc) {
         this.bcc = bcc;
+        return this;
     }
 
     public String getFrom() {
         return from;
     }
 
-    public void setFrom(String from) {
+    public Message setFrom(String from) {
         this.from = from;
+        return this;
     }
 }
