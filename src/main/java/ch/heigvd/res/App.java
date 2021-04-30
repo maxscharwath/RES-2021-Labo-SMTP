@@ -2,6 +2,7 @@ package ch.heigvd.res;
 
 import ch.heigvd.res.config.ConfigurationManager;
 import ch.heigvd.res.model.Message;
+import ch.heigvd.res.model.PrankGenerator;
 import ch.heigvd.res.smtp.SmptClient;
 
 import java.io.IOException;
@@ -14,6 +15,9 @@ public class App {
     public static void main(String[] args) {
         ConfigurationManager config = new ConfigurationManager();
         config.loadConfig("config/config.properties");
+
+        PrankGenerator generator = new PrankGenerator("config/victims.utf8","config/messages.utf8");
+
         SmptClient client = new SmptClient(config.getSmtpServerAddress(), config.getSmtpServerPort());
         Message message = new Message()
                 .setBody("Hello buddy !")

@@ -5,17 +5,21 @@ public class Person {
     private String lastname;
     private String email;
 
-    Person(String email)
+    Person(String firstname, String lastname, String email)
     {
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return  firstname + " " + lastname + " <" + email + ">";
+
     }
 
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getFirstname() {

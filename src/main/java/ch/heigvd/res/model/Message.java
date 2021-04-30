@@ -2,6 +2,7 @@ package ch.heigvd.res.model;
 
 public class Message {
     private String from;
+    //TODO: Mettre LinkedList partout
     private String[] to = new String[0];
     private String[] cc = new String[0];
     private String[] bcc = new String[0];

@@ -38,15 +38,30 @@ public class SmptClient {
             line = reader.readLine();
             LOG.info(line);
         }
-        writer.write("MAIL FROM:");
-        writer.write(msg.getFrom());
+        writer.write("AUTH LOGIN\r\n");
+        writer.flush();
+        line = reader.readLine();
+        LOG.info(line);
+
+        writer.write("MWEyZjQ5YmE4YWZmYzQ=\r\n");
+        writer.flush();
+        line = reader.readLine();
+        LOG.info(line);
+
+        writer.write("MGQ4N2Y4ODdkMjNhMTI=\r\n");
+        writer.flush();
+        line = reader.readLine();
+        LOG.info(line);
+
+        writer.write("MAIL FROM: ");
+        writer.write("<" + msg.getFrom() + ">");
         writer.write("\r\n");
         writer.flush();
 
         for(String to : msg.getTo())
         {
             writer.write("RCPT TO: ");
-            writer.write(to);
+            writer.write("<" + to + ">");
             LOG.info(to);
             writer.write("\r\n");
             writer.flush();
@@ -57,7 +72,7 @@ public class SmptClient {
         for(String cc : msg.getCc())
         {
             writer.write("RCPT TO: ");
-            writer.write(cc);
+            writer.write("<" + cc + ">");
             writer.write("\r\n");
             writer.flush();
             line = reader.readLine();
@@ -67,7 +82,7 @@ public class SmptClient {
         for(String witness : msg.getBcc())
         {
             writer.write("RCPT TO: ");
-            writer.write(witness);
+            writer.write( "<" + witness + ">");
             writer.write("\r\n");
             writer.flush();
             line = reader.readLine();
@@ -108,4 +123,5 @@ public class SmptClient {
         reader.close();
         socket.close();
     }
+
 }
