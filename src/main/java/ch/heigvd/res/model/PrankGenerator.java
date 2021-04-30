@@ -1,8 +1,5 @@
 package ch.heigvd.res.model;
 
-import jdk.jfr.MemoryAddress;
-
-import javax.sound.midi.SysexMessage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,49 +14,49 @@ public class PrankGenerator {
     public PrankGenerator(String victimsFileName, String pranksFileName) {
         loadPranks(pranksFileName);
         loadUsers(victimsFileName);
-        System.out.println("Nb Pranks: "+ pranks.size());
-        for (Prank prank: pranks) {
-            System.out.println(prank);
-        }
-        System.out.println("Nb victims: "+ victims.size());
-        for (Person victim: victims) {
-            System.out.println(victim);
-        }
     }
 
-    public Message generatePrank(int nbVictims){
+    public Message generatePrank(int nbVictims, String bcc) {
         Random random = new Random();
         Prank prank = pranks.get(random.nextInt(pranks.size()));
         Person from = victims.get(random.nextInt(victims.size()));
-
-        Message msg = new Message();
-
-        msg.setFrom(from.getEmail());
         LinkedList<Person> actualVictims = new LinkedList<>();
 
-        while(actualVictims.size() < Math.min(victims.size()-1, nbVictims)){
+        while (actualVictims.size() < Math.min(victims.size() - 1, nbVictims)) {
             Person to = victims.get(random.nextInt(victims.size()));
-            if(!actualVictims.contains(to) && to != from){
+            if (!actualVictims.contains(to) && to != from) {
                 actualVictims.add(to);
             }
         }
+
+        Message msg = new Message();
+        msg.setFrom(from.getEmail());
+        for (Person victim : actualVictims) {
+            msg.addTo(victim.getEmail());
+        }
         msg.setBody(prank.getMessage(from));
-
-        //TODO
-        return null;
-
+        msg.setSubject(prank.getSubject());
+        msg.addBcc(bcc);
+        return msg;
     }
-    private void loadPranks(String filePath) {
-        StringBuilder prankBuilder = new StringBuilder();
 
+    private void loadPranks(String filePath) {
+        StringBuilder prankBody = new StringBuilder();
+        String prankSubject = "";
+        int nbLine = 0;
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) {
                 if (sCurrentLine.equals("====")) {
-                    pranks.add(new Prank(prankBuilder.toString()));
-                    prankBuilder = new StringBuilder();
+                    pranks.add(new Prank(prankSubject, prankBody.toString()));
+                    prankBody = new StringBuilder();
+                    nbLine = 0;
                 } else {
-                    prankBuilder.append(sCurrentLine).append("\n");
+                    if (nbLine == 0)
+                        prankSubject = sCurrentLine;
+                    else
+                        prankBody.append(sCurrentLine).append("\n");
+                    nbLine++;
                 }
             }
         } catch (IOException e) {
@@ -71,8 +68,8 @@ public class PrankGenerator {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) {
-                    String infos[] = sCurrentLine.split(",");
-                    victims.add(new Person(infos[0], infos[1], infos[2]));
+                String infos[] = sCurrentLine.split(",");
+                victims.add(new Person(infos[0], infos[1], infos[2]));
             }
         } catch (IOException e) {
             e.printStackTrace();

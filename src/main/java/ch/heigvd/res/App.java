@@ -12,24 +12,15 @@ import java.io.IOException;
  */
 public class App {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         ConfigurationManager config = new ConfigurationManager();
         config.loadConfig("config/config.properties");
 
-        PrankGenerator generator = new PrankGenerator("config/victims.utf8","config/messages.utf8");
+        PrankGenerator generator = new PrankGenerator("config/victims.utf8", "config/messages.utf8");
 
+        Message message = generator.generatePrank(config.getNumberOfGroups(), config.getWitnessToCC());
         SmptClient client = new SmptClient(config.getSmtpServerAddress(), config.getSmtpServerPort());
-        Message message = new Message()
-                .setBody("Hello buddy !")
-                .setSubject("I'm back darling")
-                .setTo("elizabeth.alexandra.mary@windsor.uk","charles.philip.arthur.george@windsor.uk","diana.frances.spencer@windsor.uk")
-                .setCc("elizabeth.alexandra.mary@windsor.uk","charles.philip.arthur.george@windsor.uk","diana.frances.spencer@windsor.uk")
-                .setFrom("philip.mountbatten@windsor.uk");
-        try {
-            client.sendMessage(message);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        client.sendMessage(message);
 
     }
 }

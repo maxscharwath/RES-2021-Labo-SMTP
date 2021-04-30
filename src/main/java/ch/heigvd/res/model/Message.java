@@ -1,11 +1,13 @@
 package ch.heigvd.res.model;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+
 public class Message {
     private String from;
-    //TODO: Mettre LinkedList partout
-    private String[] to = new String[0];
-    private String[] cc = new String[0];
-    private String[] bcc = new String[0];
+    private LinkedList<String> to = new LinkedList<>();
+    private LinkedList<String> cc = new LinkedList<>();
+    private LinkedList<String> bcc = new LinkedList<>();
     private String subject;
     private String body;
 
@@ -29,29 +31,44 @@ public class Message {
     }
 
     public String[] getTo() {
-        return to;
+        return to.toArray(new String[0]);
     }
 
-    public Message setTo(String ...to) {
-        this.to = to;
+    public Message setTo(String[] emails) {
+        this.to = new LinkedList<>(Arrays.asList(emails));
+        return this;
+    }
+
+    public Message addTo(String email) {
+        this.to.add(email);
         return this;
     }
 
     public String[] getCc() {
-        return cc;
+        return cc.toArray(new String[0]);
     }
 
-    public Message setCc(String ...cc) {
-        this.cc = cc;
+    public Message setCc(String[] emails) {
+        this.cc = new LinkedList<>(Arrays.asList(emails));
+        return this;
+    }
+
+    public Message addCC(String email) {
+        this.cc.add(email);
         return this;
     }
 
     public String[] getBcc() {
-        return bcc;
+        return bcc.toArray(new String[0]);
     }
 
-    public Message setBcc(String[] bcc) {
-        this.bcc = bcc;
+    public Message setBcc(String[] emails) {
+        this.bcc = new LinkedList<>(Arrays.asList(emails));
+        return this;
+    }
+
+    public Message addBcc(String email) {
+        this.bcc.add(email);
         return this;
     }
 
@@ -62,5 +79,17 @@ public class Message {
     public Message setFrom(String from) {
         this.from = from;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "from='" + from + '\'' +
+                ", to=" + to +
+                ", cc=" + cc +
+                ", bcc=" + bcc +
+                ", subject='" + subject + '\'' +
+                ", body='" + body + '\'' +
+                '}';
     }
 }
