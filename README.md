@@ -3,7 +3,7 @@
 ### RES-2021-Labo-SMTP By Paul Reeve & Maxime Scharwath
 
 This repo is a project for the course RES at HEIG-VD
-##Let's introduce :
+## Let's introduce :
 ```
  ________  ________  ________  ________   ___  __    _______   ________    _______  ________  ________  ________     
 |\   __  \|\   __  \|\   __  \|\   ___  \|\  \|\  \ |\  ___ \ |\   __  \  /  ___  \|\   __  \|\   __  \|\   __  \    
