@@ -1,11 +1,10 @@
 package ch.heigvd.res.config;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Properties;
 
 public class ConfigurationManager {
-    private Properties prop = new Properties();
+    private final Properties prop = new Properties();
 
     public ConfigurationManager() {
     }
@@ -15,7 +14,7 @@ public class ConfigurationManager {
             FileInputStream stream = new FileInputStream(propFileName);
             prop.load(stream);
             stream.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;
@@ -30,7 +29,11 @@ public class ConfigurationManager {
     }
 
     public int getNumberOfGroups() {
-        return Integer.parseInt(prop.getProperty("numberOfGroups", "0"));
+        return Integer.parseInt(prop.getProperty("numberOfGroups", "8"));
+    }
+
+    public int getGroupSize() {
+        return Integer.parseInt(prop.getProperty("groupSize", "3"));
     }
 
     public String getWitnessToCC() {

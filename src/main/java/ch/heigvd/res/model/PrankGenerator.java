@@ -77,7 +77,7 @@ public class PrankGenerator {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) {
-                String infos[] = sCurrentLine.split(",");
+                String[] infos = sCurrentLine.split(",");
                 victims.add(new Person(infos[0], infos[1], infos[2]));
             }
         } catch (IOException e) {
