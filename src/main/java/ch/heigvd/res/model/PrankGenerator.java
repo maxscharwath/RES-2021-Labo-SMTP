@@ -3,20 +3,27 @@ package ch.heigvd.res.model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
 
 public class PrankGenerator {
-    private LinkedList<Person> victims = new LinkedList<>();
+    private LinkedList<Person> victims = new LinkedList<>(); //list of all the potential victims
 
-    private LinkedList<Prank> pranks = new LinkedList<>();
+    private LinkedList<Prank> pranks = new LinkedList<>(); //List of all the pranks
 
     public PrankGenerator(String victimsFileName, String pranksFileName) {
         loadPranks(pranksFileName);
         loadVictims(victimsFileName);
     }
 
+    /**
+     * Generate an array of groups of victims
+     * @param nbGroups the number of groups to create
+     * @param groupSize the size of each group
+     * @return the arrayy of the groups created
+     */
     public Group[] generateGroups(int nbGroups, int groupSize) {
         groupSize = Math.min(groupSize, victims.size());
         nbGroups = Math.min(nbGroups, victims.size() / groupSize);
@@ -32,6 +39,12 @@ public class PrankGenerator {
         return groups;
     }
 
+    /**
+     * Generate a prank message for a group
+     * @param group the victim group
+     * @param bcc the email to send an hidden copy
+     * @return the prank message
+     */
     public Message generatePrank(Group group, String bcc) {
         Random random = new Random();
         Prank prank = pranks.get(random.nextInt(pranks.size()));
@@ -49,11 +62,21 @@ public class PrankGenerator {
         return msg;
     }
 
+    /**
+     * Retrieve all the pranks from a file
+     * The redaction of each prank in the file must follow this structure:
+     *
+     * Subject
+     * Body
+     * ====
+
+     * @param filePath the path to the pranks file
+     */
     private void loadPranks(String filePath) {
         StringBuilder prankBody = new StringBuilder();
         String prankSubject = "";
         int nbLine = 0;
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath, StandardCharsets.UTF_8))) {
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) {
                 if (sCurrentLine.equals("====")) {
@@ -73,8 +96,15 @@ public class PrankGenerator {
         }
     }
 
+    /**
+     * Retrieve all the potential victims from a file
+     * The redaction of each victim in the file must follow this structure:
+     *
+     * firstname,lastname,email
+     * @param filePath the path to the victim file
+     */
     private void loadVictims(String filePath) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath, StandardCharsets.UTF_8))) {
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) {
                 String[] infos = sCurrentLine.split(",");

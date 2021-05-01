@@ -3,6 +3,9 @@ package ch.heigvd.res.model;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+/**
+ *
+ */
 public class Group {
     private LinkedList<Person> members = new LinkedList<>();
 
