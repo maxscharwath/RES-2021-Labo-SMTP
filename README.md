@@ -19,7 +19,7 @@ This repo is a project for the course RES at HEIG-VD
 Please put these 3 config files on a folder named "config" which will be in the same folder as the .jar file.
 
 ```
-├── PrankClient.jar
+├── Pranker2000.jar
 └── config
     ├── config.properties
     ├── messages.utf8
@@ -91,3 +91,9 @@ ENTRYPOINT java -jar MockMock.jar -p $MOCKMOCK_SMPT_PORT -h $MOCKMOCK_HTTP_PORT 
 
 We use this dockerized version and not directly in our device because there are some problems on Windows device. See
 this issue: https://github.com/tweakers/MockMock/issues/10
+
+## How to run Pranker2000.jar ? 
+Run this command in the folder of this .jar. Don't forget to have a valid config directory.
+```bash
+java -jar Pranker2000.jar
+```
